@@ -21,33 +21,26 @@ export function ImageGallery({query})  {
       setImages([]);
       return
     }
-    const loadImages = async (query, page) => {
+    const loadImages = async (currentQuery, currentPage) => {
       setLoading(true);
       try {
-        const result = await apiServices(query, page);
+        const result = await apiServices(currentQuery, currentPage);
         const data = result.hits;
         const pagesCounter = Math.ceil(result.totalHits / 12);
 
-        setImages(prevData => {
-          return [...prevData, ...data];
+        setImages(prev => {
+          return [...prev, ...data];
         });
 
         if (data.length === 0) {
           return Notiflix.Notify.failure('Зображень не знайдено');
-        }
-        if (page === 1) {
-          setImages([...data]);
-        }
+        } 
         if (page >= pagesCounter) {
           Notiflix.Notify.failure('Це останні результати за Вашим запитом');
           setshowLoadMore(false);
-        } else {
-          setImages(prevData => {
-            return [...prevData, ...data];
-          });
         }
       } catch (error) {
-        console.log(error);
+          Notiflix.Notify.failure('Сталася помилка, перезавантажте сторінку та спробуйте ще раз');
       } finally {
         setLoading(false);
       }

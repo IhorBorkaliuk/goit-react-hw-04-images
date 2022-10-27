@@ -9,7 +9,7 @@ export function App () {
 
 const [query, setQuery] = useState('')
 
- const updateQuery = () => {
+ const updateQuery = (query) => {
 setQuery(query)
  };
 
