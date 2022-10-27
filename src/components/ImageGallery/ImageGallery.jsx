@@ -21,10 +21,10 @@ export function ImageGallery({query})  {
       setImages([]);
       return
     }
-    const loadImages = async (currentQuery, currentPage) => {
+    const loadImages = async (query, page) => {
       setLoading(true);
       try {
-        const result = await apiServices(currentQuery, currentPage);
+        const result = await apiServices(query, page);
         const data = result.hits;
         const pagesCounter = Math.ceil(result.totalHits / 12);
 
