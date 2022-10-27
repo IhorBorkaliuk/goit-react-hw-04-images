@@ -8,22 +8,18 @@ import { StyledGallery } from './ImageGalleryStyled';
 import { Loader } from 'components/Loader/Loader';
 import apiServices from 'components/services/apiServices.js';
 
-export function ImageGallery()  {
+export function ImageGallery({query})  {
   const [images, setImages] = useState([]);
   const [page, setPages] = useState(1);
-  const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [showLoadMore, setshowLoadMore] = useState(true);
     
-    
-  // useEffect(() => {
-  //   if (query === '') { setImages([]); }
-  // }, [query]);
 
   
   useEffect(() => {
-    if (query === '') {
+    if (!query) {
       setImages([]);
+      return
     }
     const loadImages = async (query, page) => {
       setLoading(true);
@@ -52,7 +48,6 @@ export function ImageGallery()  {
         }
       } catch (error) {
         console.log(error);
-        setQuery('') ///////////////////////////////////////////////////////////
       } finally {
         setLoading(false);
       }
