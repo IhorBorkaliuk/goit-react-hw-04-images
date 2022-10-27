@@ -1,28 +1,23 @@
 import { SearchBar } from "./SearchBar/SearchBar";
 import { ImageGallery } from "./ImageGallery/ImageGallery";
-import { Component } from "react";
 import { StyledApp } from "./AppStyled";
 import { GlobalNormalize } from "./Styled/GlobalNormalize";
+import { useState } from "react";
 
 
-export class App extends Component {
-  state = {
-    query: '',
-  };
+export function App () {
 
-  updateQuery = text => {
-    this.setState({ query: text });
-  };
+const [query, setQuery] = useState('')
 
-  render() {
-    const { query } = this.state;
+ const updateQuery = () => {
+setQuery(query)
+ };
 
     return (
       <StyledApp>
-        <SearchBar onSubmit={this.updateQuery} />
+        <SearchBar onSubmit={updateQuery} />
         <ImageGallery query={query} />
         <GlobalNormalize />
       </StyledApp>
     );
   }
-}
