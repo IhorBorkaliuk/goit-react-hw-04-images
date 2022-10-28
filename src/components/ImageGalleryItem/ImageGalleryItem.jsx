@@ -1,46 +1,30 @@
-import { Component } from "react";
+import { useState } from "react";
 import { Modal } from "components/Modal/Modal";
 import { Item, IMG } from "./ImageGalleryItemStyled";
 
-export class ImageGalleryItem extends Component {
-  state = {
-    isModalOpen: false,
+export function ImageGalleryItem({ item }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.isModalOpen) {
-      window.addEventListener('keydown', this.onModalKeydown);
-    } else window.removeEventListener('keydown', this.onModalKeydown);
-  }
-
-  onModalKeydown = e => {
-    if (e.key === 'Escape') {
-      this.closeModal();
-    }
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
-
-  openModal = () => {
-    this.setState({ isModalOpen: true });
-  };
-
-  closeModal = () => {
-    this.setState({ isModalOpen: false });
-  };
-  render() {
-    const { webformatURL, largeImageURL, tags } = this.props.item;
-    return (
-      <Item>
-        <IMG src={webformatURL} alt={tags} onClick={this.openModal} />
-        {this.state.isModalOpen && (
-          <Modal
-            largeImageURL={largeImageURL}
-            tags={tags}
-            onModalClose={this.closeModal}
-          />
-        )}
-      </Item>
-    );
-  }
+  const { webformatURL, largeImageURL, tags } = item;
+  return (
+    <Item>
+      <IMG src={webformatURL} alt={tags} onClick={openModal} />
+      {isModalOpen && (
+        <Modal
+          largeImageURL={largeImageURL}
+          tags={tags}
+          onModalClose={closeModal}
+        />
+      )}
+    </Item>
+  );
 }
 
 
