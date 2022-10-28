@@ -1,56 +1,10 @@
-import Notiflix from 'notiflix';
 import PropTypes from 'prop-types';
 
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
-import { useState, useEffect } from 'react';
-import { Button } from 'components/Button/Button';
 import { StyledGallery } from './ImageGalleryStyled';
-import { Loader } from 'components/Loader/Loader';
-import apiServices from 'components/services/apiServices.js';
 
-export function ImageGallery({query})  {
-  const [images, setImages] = useState([]);
-  const [page, setPages] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [showLoadMore, setshowLoadMore] = useState(true);
-    
-
-  
-  useEffect(() => {
-    if (!query) {
-      setImages([]);
-      return
-    }
-    const loadImages = async (query, page) => {
-      setLoading(true);
-      try {
-        const result = await apiServices(query, page);
-        const data = result.hits;
-        const pagesCounter = Math.ceil(result.totalHits / 12);
-
-        setImages(prev => {
-          return [...prev, ...data];
-        });
-
-        if (data.length === 0) {
-          return Notiflix.Notify.failure('Зображень не знайдено');
-        } 
-        if (page >= pagesCounter) {
-          Notiflix.Notify.failure('Це останні результати за Вашим запитом');
-          setshowLoadMore(false);
-        }
-      } catch (error) {
-          Notiflix.Notify.failure('Сталася помилка, перезавантажте сторінку та спробуйте ще раз');
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadImages(query, page)}, [query, page])
-
-  const loadMore = () => {
-    setPages(prevPage => prevPage + 1)
-    setLoading(true)
-  };
+export function ImageGallery({ images })  {
+                console.log(images);
 
     return (
       <>
@@ -59,10 +13,6 @@ export function ImageGallery({query})  {
             return <ImageGalleryItem item={el} key={el.id} />;
           })}
         </StyledGallery>
-        {!loading && showLoadMore && images.length >= 12 && (
-          <Button onClick={loadMore} />
-        )}
-        {loading && <Loader />}
       </>
     );
   }
