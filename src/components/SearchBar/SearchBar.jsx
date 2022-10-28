@@ -1,5 +1,5 @@
 import Notiflix from "notiflix";
-import { Component } from "react";
+import { useState } from 'react';
 import {
   StyledSearchBar,
   StyledForm,
@@ -10,32 +10,31 @@ import {
 import { FaSearch } from 'react-icons/fa';
 
 
-export class SearchBar extends Component {
-    state = {
-        query: '',
+export function SearchBar({onSubmit}) {
+  const [query, setQuery] = useState('');
+
+  const handleChange = e => {
+      const query = e.currentTarget.value;
+        setQuery(query)
     };
 
-    handleChange = e => {
-        this.setState({ query: e.currentTarget.value });
-    };
-
-    handleSubmit = e => {
+    const handleSubmit = e => {
         e.preventDefault();
-        if (this.state.query.trim() === '') {
+        if (query.trim() === '') {
             return Notiflix.Notify.warning('Будь ласка, введіть запит у пошуку ');
         }
-        this.props.onSubmit(this.state.query);
-        this.reset();
+        onSubmit(query);
+        reset();
     };
 
-    reset = () => {
-        this.setState({ query: '' });
+    const reset = () => {
+      setQuery('')
     }
 
-    render() {
+
         return (
           <StyledSearchBar>
-            <StyledForm onSubmit={this.handleSubmit}>
+            <StyledForm onSubmit={handleSubmit}>
               <StyledButton type="submit">
                 <FaSearch />
                 <StyledButtonLabel>Search</StyledButtonLabel>
@@ -45,11 +44,10 @@ export class SearchBar extends Component {
                 className="input"
                 type="text"
                 placeholder="Search images and photos"
-                value={this.state.query}
-                onChange={this.handleChange}
+                value={query}
+                onChange={handleChange}
               />
             </StyledForm>
           </StyledSearchBar>
         );
-    }
 }

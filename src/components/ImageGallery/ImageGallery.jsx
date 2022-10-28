@@ -4,8 +4,6 @@ import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { StyledGallery } from './ImageGalleryStyled';
 
 export function ImageGallery({ images })  {
-                console.log(images);
-
     return (
       <>
         <StyledGallery>
