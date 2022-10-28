@@ -17,9 +17,15 @@ export function App() {
   const [query, setQuery] = useState('');
 
 
-  const updateQuery = query => {
-    setQuery(query);
+  const updateQuery = newQuery => {
+    setQuery(newQuery);
   };
+
+  useEffect(() => {
+    setPages(1);
+    setImages([]);
+  }, [query]);
+
 
   useEffect(() => {
     if (!query) {
@@ -63,7 +69,7 @@ export function App() {
   return (
     <StyledApp>
       <SearchBar onSubmit={updateQuery} />
-      <ImageGallery query={query} />
+      <ImageGallery images={images} />
       {!loading && showLoadMore && images.length >= 12 && (
         <Button onClick={loadMore} />
       )}

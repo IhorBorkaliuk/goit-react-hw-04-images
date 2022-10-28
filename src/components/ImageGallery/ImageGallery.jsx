@@ -18,6 +18,5 @@ export function ImageGallery({ images })  {
   }
 
 ImageGallery.propTypes = {
-  query: PropTypes.string.isRequired,
   page: PropTypes.number,
 };
