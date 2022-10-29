@@ -19,12 +19,9 @@ export function App() {
 
   const updateQuery = newQuery => {
     setQuery(newQuery);
-  };
-
-  useEffect(() => {
     setPages(1);
     setImages([]);
-  }, [query]);
+  };
 
 
   useEffect(() => {
@@ -63,7 +60,6 @@ export function App() {
 
   const loadMore = () => {
     setPages(prevPage => prevPage + 1);
-    setLoading(true);
   };
 
   return (
